@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ProductDto>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container">
+        <div class="row p-1">
+            <div class="col-1">Kullanıcı:</div>
+            <div class="col-5"><input type="text" id="userInput" value="@User.Identity.Name"  readonly/></div>
+        </div>
+        <div class="row p-1">
+            <div class="col-1">Mesajınız:</div>
+            <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+        </div>
+        <div class="row p-1">
+            <div class="col-6 text-end">
+                <input type="button" id="sendButton" value="Gönder" />
+            </div>
+        </div>
+        <div class="row p-1">
+            <div class="col-6">
+                <hr />
+            </div>
+        </div>
+        @*<div class="row p-1">
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>*@
+    </div>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+}
+
+
+
+
+
+<form>
+
+    <div class="container row">
+
+        @foreach (var product in Model)
+        {
+            <div class="col-4 ">
+                <div class="p-0 my-3 border">
+                    <div class="card">
+
+                        <img src="~/Uploads/@product.ImageUrl" class="card-img-top" alt="@product.ImageUrl">
+                        <div class="card-body">
+                            <h3 class="card-title text-success">@product.Name</h3>
+                            <span class="badge badge-light mb-2 ">@product.CategoryName</span>
+                            <p class="card-text">@Html.Raw(product.Description)</p>
+                            <div class="row">
+                                <div class="col pt-1">
+                                    <span style="font-size:23px;">@string.Format("{0:c}", product.Price)</span>
+                                </div>
+                                <div class="col">
+                                    <a asp-action="Details" asp-route-productId="@product.ProductId"
+                                       class="btn btn-success form-control">Details</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</form>
